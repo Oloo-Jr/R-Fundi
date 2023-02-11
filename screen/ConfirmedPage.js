@@ -11,7 +11,7 @@ import QuoteTable from '../components/QuoteTable';
 import { QUOTE } from '../data/services';
 
 
-const QuoteScreen = ({ navigation }) => {
+const ConfirmedScreen = ({ navigation }) => {
 
 
     const renderQuoteItem = itemData => {
@@ -61,29 +61,21 @@ return (
 
                 <Card style={styles.card}>
                     <View style={styles.textView}>
-                        <TitleText style={styles.Text}>Please draft a quotation for the client</TitleText>
+                        <TitleText style={styles.Text}>Work in progress</TitleText>
 
                     </View>
-                    <View style={styles.flatlist}>
-                        <FlatList
-                            keyExtractor={(item, index) => item.id}
-                            data={QUOTE}
-                            renderItem={renderQuoteItem}
-                            numColumns={1}
-                        />
-
-                    </View>
+                   
 
 
                     <View style={styles.buttonView}>
 
 
-                    <TouchableOpacity onPress={() => { navigation.replace("ConfirmScreen", { state: 0 }) }}>
+                    <TouchableOpacity onPress={() => { navigation.navigate("ConfirmScreen", { state: 0 }) }}>
 
-<Card style={styles.submitbutton}>
+<Card style={styles.backButton}>
 
 
-    <TitleText style={styles.Text}>SUBMIT</TitleText>
+    <TitleText style={styles.Text}>CHAT</TitleText>
 
 
 </Card>
@@ -95,12 +87,12 @@ return (
                     </View>
 
                     <View style={styles.buttonView2}>
-                    <TouchableOpacity onPress={() => { navigation.replace("GigScreen", { state: 0 }) }}>
+                    <TouchableOpacity onPress={() => { navigation.replace("PaymentScreen", { state: 0 }) }}>
 
-<Card style={styles.backButton}>
+<Card style={styles.submitbutton}>
 
 
-    <TitleText style={styles.Text}>GO BACK</TitleText>
+    <TitleText style={styles.Text}>DONE</TitleText>
 
 
 </Card>
@@ -300,7 +292,7 @@ gridView: {
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 100,
-    height: Dimensions.get('window').height * 0.75,
+    height: Dimensions.get('window').height * 0.5,
 
 },
 
@@ -313,4 +305,4 @@ buttonText: {
 
 });
 
-export default QuoteScreen;
+export default ConfirmedScreen;

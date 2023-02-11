@@ -60,7 +60,7 @@ const HomeScreen =({ navigation }) => {
                     name="menu"
                     //color = {colors.grey1}
                     size={35}
-                    onPress={() => { navigation.navigate("RequestScreen", { state: 0 }) }}
+                    onPress={() => { navigation.toggleDrawer() }}
                 />
 
 
@@ -71,7 +71,7 @@ const HomeScreen =({ navigation }) => {
 
 
 <View style={styles.buttonView}>
-            <TouchableOpacity   onPress={() => { navigation.navigate("GigScreen", { state: 0 }) }}>
+            <TouchableOpacity   onPress={() => { navigation.replace("GigScreen", { state: 0 }) }}>
 
                 <Card style={styles.button}>
 
@@ -118,8 +118,8 @@ const styles = StyleSheet.create({
 
     button: {
         flex: 1,
-        
-        
+        borderWidth: 1,
+        borderColor: 'black',
         width: Dimensions.get('window').width * 0.8,
         justifyContent: 'center',
         alignItems: 'center',

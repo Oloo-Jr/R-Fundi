@@ -13,7 +13,7 @@ import ArrivedButton from '../components/arrivedButton';
 
 
 
-const ConfirmScreen = ({ navigation }) => {
+const ArrivedScreen = ({ navigation }) => {
 
  
  
@@ -111,8 +111,8 @@ const ConfirmScreen = ({ navigation }) => {
 
 
       </BottomSheet>
-<ConfirmButton
-onSelect={() => { navigation.replace("ArrivedScreen", { state: 0 }) }}
+<ArrivedButton
+onSelect={() => { navigation.replace("ConfirmationScreen", { state: 0 }) }}
 
 />
       
@@ -248,4 +248,4 @@ width: '80%'
   },
 });
 
-export default ConfirmScreen;
+export default ArrivedScreen;

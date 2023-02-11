@@ -23,7 +23,7 @@ const GigScreen = ({ navigation }) => {
                 location={itemData.item.location}
                 service={itemData.item.service}
                 remarks={itemData.item.remarks}
-                onSelect={() => { navigation.navigate("QuoteScreen", { state: 0 }) }}
+                onSelect={() => { navigation.replace("QuoteScreen", { state: 0 }) }}
 
 
             />
