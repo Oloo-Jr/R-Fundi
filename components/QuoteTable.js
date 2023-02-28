@@ -26,8 +26,6 @@ const QuoteTable = props => {
                         <TitleText style={styles.details}> {props.description}</TitleText>
                         <TextInput
                         style={styles.input}
-
-                        
                         placeholder="Figure"
 
                     />

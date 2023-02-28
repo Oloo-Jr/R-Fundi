@@ -6,10 +6,13 @@ import TitleText from '../components/TitleText';
 import MapView, { PROVIDER_GOOGLE, } from 'react-native-maps';
 import * as Location from 'expo-location';
 import { Icon } from 'react-native-elements';
+import { auth, db } from '../Database/config';
+import { setDoc, doc } from "firebase/firestore";
 
 const HomeScreen =({ navigation }) => {
 
-    const [latlng, setLatLng] = useState({})
+    const [latitude, setLatitude] = useState("");
+    const [longitude, setLongitude] = useState("");
 
     const checkPermission = async () => {
       const hasPermission = await Location.requestForegroundPermissionsAsync();
@@ -33,7 +36,8 @@ const HomeScreen =({ navigation }) => {
         const {
           coords: { latitude, longitude },
         } = await Location.getCurrentPositionAsync();
-        setLatLng({ latitude: latitude, longitude: longitude })
+        setLatitude(latitude);
+        setLongitude(longitude);
       } catch (err) {
   
       }
@@ -44,7 +48,6 @@ const HomeScreen =({ navigation }) => {
     useEffect(() => {
       checkPermission();
       getLocation()
-      console.log(latlng)
         , []
     })
    
@@ -60,7 +63,7 @@ const HomeScreen =({ navigation }) => {
                     name="menu"
                     //color = {colors.grey1}
                     size={35}
-                    onPress={() => { navigation.navigate("RequestScreen", { state: 0 }) }}
+                    onPress={() => { navigation.openDrawer(); }}
                 />
 
 

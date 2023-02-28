@@ -7,12 +7,100 @@ import TitleText from '../components/TitleText';
 import { Icon } from 'react-native-elements'
 import BodyText from '../components/BodyText';
 import SubText from '../components/SubText';
+import { auth,db } from '../Database/config';
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserDocument, uploadProfile } from '../Database/dbmethods';
+import { useState,useEffect } from 'react';
+import * as ImagePicker from 'expo-image-picker';
+import firebase from 'firebase';
+
 
 const SignUpScreen = ({ navigation }) => {
+  const [name, setName] = useState("");
+  const [idNumber, setIdNumber] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [image, setImage] = useState(null)
 
+  const pickImage = async () => {
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      aspect: [4, 3],
+      quality: 1,
+    });
 
+    const source = {uri: result.uri};
+    console.log(source);
+    setImage(source)
+  };
+ const uploadProfile = async (name, idNumber, phoneNumber,imgUrl) => {
+    const blob = await new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.onload = function() {
+        resolve(xhr.response);
+      };
+      xhr.onerror = function() {
+        reject(new TypeError('Network request failed'));
+      };
+      xhr.responseType = 'blob';
+      xhr.open('GET', image, true);
+      xhr.send(null);
+    })
+    const serialNumber = Math.floor(100000+Math.random()*9000).toString()
+    const ref = storage.ref("FundiProfileImages").child(serialNumber)
+    const snapshot = ref.put(blob)
+    snapshot.on(firebase.storage.TaskEvent.STATE_CHANGED,
+      ()=>{
+        setUploading(true)
+      },
+      (error) => {
+        setUploading(false)
+        console.log(error)
+        blob.close()
+        return 
+      },
+      () => {
+        storage.ref("FundiProfileImages")
+            .child(serialNumber)
+            .getDownloadURL()
+            .then((imageUrl)=>{
+              db.collection('FundiProfile')
+              .add({
+                Name: name,
+                PhoneNumber: phoneNumber,
+                IdNumber: idNumber,
+                imgUrl: imgUrl,
+              })
+            })
+      }
+      )
+  
+  }
+    
+  const handleSignUp = () => {
+    auth
+    .createUserWithEmailAndPassword(email, password)
+    .then(userCredentials => {
+     const user = userCredentials.user;
+     uploadProfile(name,idNumber,phoneNumber,image );
+     console.log('Registered in with:', user.email);
+    })
+    .catch(error => alert(error.message))
+ }
+    
+            useEffect(() => {
+                const unsubscribe = auth.onAuthStateChanged(user => {
+                    if (user) {
+                        navigation.replace("HomeScreen",{
+                            currentDisplayName: name
+                        })
+                    }
+                })
 
-
+                return unsubscribe
+            }, [])
 
 
 
@@ -66,13 +154,13 @@ const SignUpScreen = ({ navigation }) => {
 
                                 <TextInput
                                     style={styles.input}
-
-
+                                    value =  { name }
+                                    onChangeText={text => setName(text)}
                                     placeholder="Name"
 
                                 />
 
-                                <TouchableOpacity onPress={() => { navigation.navigate("HomeScreen", { state: 0 }) }}>
+                                <TouchableOpacity onPress={pickImage}>
 
                                     <Card style={styles.inputButton}>
 
@@ -86,43 +174,46 @@ const SignUpScreen = ({ navigation }) => {
 
                                 <TextInput
                                     style={styles.input}
-
-
+                                    value =  { idNumber }
+                                    onChangeText={text => setIdNumber(text)}
                                     placeholder="ID Number"
 
                                 />
 
                                 <TextInput
                                     style={styles.input}
-
-
-                                    placeholder="Phone Number"
+                                    value =  { phoneNumber }
+                                     onChangeText={text => setPhoneNumber(text)}
+                                    placeholder="Phone Number(+254)"
 
                                 />
 
                                 <TextInput
                                     style={styles.input}
-
-
+                                    value =  { email }
+                                    onChangeText={text => setEmail(text)}
                                     placeholder="Email"
 
                                 />
 
                                 <TextInput
                                     style={styles.input}
-
-
+                                    value =  { password }
+                                    onChangeText={text => setPassword(text)}
                                     placeholder="Password"
+                                    secureTextEntry
 
                                 />
 
                                 <TextInput
                                     style={styles.input}
-
-
+                                    value =  { confirmPassword }
+                                    onChangeText={text => setConfirmPassword(text)}
                                     placeholder="Confirm Password"
+                                    secureTextEntry
 
                                 />
+
 
 
 
@@ -132,7 +223,7 @@ const SignUpScreen = ({ navigation }) => {
 
 
                                 <View style={styles.buttonView}>
-                                    <TouchableOpacity onPress={() => { navigation.navigate("HomeScreen", { state: 0 }) }}>
+                                    <TouchableOpacity onPress={handleSignUp} >
 
                                         <Card style={styles.submitbutton}>
 

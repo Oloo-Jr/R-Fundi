@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import { View, StyleSheet, Image, TouchableOpacity, FlatList, Text } from 'react-native';
 import Card from '../components/card';
 import { Dimensions } from 'react-native';
@@ -9,9 +9,48 @@ import BodyText from '../components/BodyText'
 import TitleText from '../components/TitleText';
 import QuoteTable from '../components/QuoteTable';
 import { QUOTE } from '../data/services';
+import MapView, { PROVIDER_GOOGLE, } from 'react-native-maps';
 
 
 const QuoteScreen = ({ navigation }) => {
+    const [latlng, setLatLng] = useState({})
+
+    const checkPermission = async () => {
+      const hasPermission = await Location.requestForegroundPermissionsAsync();
+      if (hasPermission.status === 'granted') {
+        const permission = await askPermission();
+        return permission
+      }
+      return true
+    };
+  
+    const askPermission = async () => {
+      const permission = await Location.requestBackgroundPermissionsAsync();
+      return permission.status === 'granted';
+    };
+  
+  
+    const getLocation = async () => {
+      try {
+        const { granted } = await Location.requestBackgroundPermissionsAsync();
+        if (!granted) return;
+        const {
+          coords: { latitude, longitude },
+        } = await Location.getCurrentPositionAsync();
+        setLatLng({ latitude: latitude, longitude: longitude })
+      } catch (err) {
+  
+      }
+    }
+  
+    const _map = useRef(1);
+  
+    useEffect(() => {
+      checkPermission();
+      getLocation()
+      console.log(latlng)
+        , []
+    })
 
 
     const renderQuoteItem = itemData => {
@@ -36,6 +75,16 @@ return (
 
     <View style={styles.container}>
         
+        <MapView
+                ref={_map}
+                provider={PROVIDER_GOOGLE}
+                style={styles.map}
+                showsUserLocation={true}
+                followsUserLocation={true}
+                
+            > 
+        
+            </MapView>
 
         <View style={styles.iconView}>
             <Icon
@@ -308,6 +357,10 @@ buttonText: {
     fontWeight: 'bold',
 
 },
+map: {
+    height: "100%",
+    width: "100%",
+  },
 
 
 

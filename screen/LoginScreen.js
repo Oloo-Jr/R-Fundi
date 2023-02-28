@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, StyleSheet, Image, TouchableOpacity, ImageBackground, TextInput, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import Card from '../components/card';
 import { Dimensions } from 'react-native';
@@ -6,14 +6,23 @@ import { SelectList } from 'react-native-dropdown-select-list'
 import TitleText from '../components/TitleText';
 import { Icon } from 'react-native-elements'
 import BodyText from '../components/BodyText';
-
+import { auth } from '../Database/config';
+import SubText
+ from '../components/SubText';
 const LoginScreen = ({ navigation }) => {
 
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState('')
 
-
-   
-
-
+    const handleLogin = () => {
+        auth
+        .signInWithEmailAndPassword(email, password)
+        .then(userCredentials => {
+            const user = userCredentials.user;
+            console.log( 'Logged in with:', user.email);
+           })
+           .catch(error => alert(error.message))
+    }
 
     return (
 
@@ -45,13 +54,6 @@ const LoginScreen = ({ navigation }) => {
 
 
 
-
-
-
-
-
-
-
             <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
    //   style={styles.container}
@@ -65,43 +67,37 @@ const LoginScreen = ({ navigation }) => {
                     
                     <TextInput
                         style={styles.input}
-
-                        
-                        placeholder="ID Number or Phone"
+                        value={email}
+                        onChangeText={text => setEmail(text)}
+                        placeholder="email"
 
                     />
 
-<TextInput
+                    <TextInput
                         style={styles.input}
-
-                        
+                        value={password}
+                        onChangeText={text => setPassword(text)}
                         placeholder="Password"
+                        secureTextEntry
 
                     />
-
-
-                    
-
-
-
-                    
-
-
 
                     <View style={styles.buttonView}>
-                        <TouchableOpacity onPress={() => { navigation.navigate("HomeScreen", { state: 0 }) }}>
-
+                        <TouchableOpacity onPress={handleLogin}>
                             <Card style={styles.submitbutton}>
-
-
                                 <TitleText style={styles.Text}>Login</TitleText>
-
-
                             </Card>
-
                         </TouchableOpacity>
                     </View>
+                    <View style={styles.login}>
 
+
+                    <TouchableWithoutFeedback onPress={() => { navigation.navigate("SignUpScreen", { state: 0 }) }}>
+                        <View>
+                            <SubText style={styles.Text}>Don't have an account? Click Here</SubText>
+                        </View>
+                    </TouchableWithoutFeedback>
+                    </View>
 
                 </Card>
                 </KeyboardAvoidingView>

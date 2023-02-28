@@ -3,11 +3,26 @@ import { createDrawerNavigator } from '@react-navigation/drawer'
 import { HomeStack } from './StackNavigator'
 import { Icon } from 'react-native-elements'
 import { colors } from '../global/styles'
+import { auth } from '../Database/config'
+import LoginScreen from '../screen/LoginScreen';
+import { useNavigation } from '@react-navigation/native';
 
 
 const Drawer = createDrawerNavigator()
 
 export default function DrawerNavigator(){
+    
+
+    const HandleSignOut = () => {
+        const navigation = useNavigation(); 
+
+        auth
+        .signOut()
+        .then(() => {
+        })
+        .catch(error => alert(error.message))
+      }
+
     return(
         <Drawer.Navigator  useLegacyImplementation={true}>
             <Drawer.Screen
@@ -143,7 +158,22 @@ export default function DrawerNavigator(){
                      headerShown : false
                      
                 }}
-                onPress ={()=>{navigation.navigate("RequestScreen",{state:0})}}
+                onPress ={()=>{navigation.navigate("SignUpScreen",{state:0})}}
+            />
+            <Drawer.Screen
+                name = "SignOut"
+                component = {HandleSignOut}
+                options = {{
+                    title:"SignOut",
+                    drawerIcon : ({focused,size})=><Icon type="material-community" 
+                                                         name = "home"
+                                                         color = {focused?'#7cc':colors.grey2}
+                                                         size = {size}
+                                                         
+                                                          />,  
+                     headerShown : false
+                     
+                }}
             />
 
         </Drawer.Navigator>
