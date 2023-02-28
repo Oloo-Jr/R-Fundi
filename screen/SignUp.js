@@ -238,7 +238,7 @@ const SignUpScreen = ({ navigation }) => {
                                 <View style={styles.login}>
 
 
-                                    <TouchableWithoutFeedback onPress={() => { navigation.navigate("LoginScreen", { state: 0 }) }}>
+                                    <TouchableWithoutFeedback onPress={() => { navigation.replace("LoginScreen", { state: 0 }) }}>
                                         <View>
                                             <SubText style={styles.Text}>Already have an account? Click Here</SubText>
                                         </View>

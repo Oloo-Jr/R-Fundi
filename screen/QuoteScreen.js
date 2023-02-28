@@ -9,6 +9,7 @@ import BodyText from '../components/BodyText'
 import TitleText from '../components/TitleText';
 import QuoteTable from '../components/QuoteTable';
 import { QUOTE } from '../data/services';
+import { TextInput } from 'react-native-gesture-handler';
 import MapView, { PROVIDER_GOOGLE, } from 'react-native-maps';
 
 
@@ -59,60 +60,82 @@ const QuoteScreen = ({ navigation }) => {
             <QuoteTable
                 description={itemData.item.description}
 
-                
+
                 amount={itemData.item.amount}
-                
-              //  onSelect={() => { navigation.navigate("DescriptionScreen", { state: 0 }) }}
+
+            //  onSelect={() => { navigation.navigate("DescriptionScreen", { state: 0 }) }}
 
 
             />
         )
     }
- 
-
-return (
 
 
-    <View style={styles.container}>
-        
-        <MapView
-                ref={_map}
-                provider={PROVIDER_GOOGLE}
-                style={styles.map}
-                showsUserLocation={true}
-                followsUserLocation={true}
-                
-            > 
-        
-            </MapView>
+    return (
 
-        <View style={styles.iconView}>
-            <Icon
-                type="material-community"
-                name="menu"
-                //color = {colors.grey1}
-                size={35}
-                onPress={() => { navigation.navigate("RequestScreen", { state: 0 }) }}
-            />
+
+        <View style={styles.container}>
+
+
+            <View style={styles.iconView}>
+                <Icon
+                    type="material-community"
+                    name="menu"
+                    //color = {colors.grey1}
+                    size={35}
+                    onPress={() => { navigation.toggleDrawer() }}
+                />
 
 
 
 
 
-        </View>
+            </View>
 
-        
-       
+
+
 
             <View style={styles.gridView}>
 
-                
+
 
                 <Card style={styles.card}>
                     <View style={styles.textView}>
                         <TitleText style={styles.Text}>Please draft a quotation for the client</TitleText>
 
                     </View>
+
+
+                    <View style={styles.QuoteInput}>
+                        <TextInput
+                            style={styles.input}
+
+
+                            placeholder="Description"
+
+                        />
+
+
+<TextInput
+                            style={styles.input1}
+
+
+                            placeholder="Amount"
+
+                        />
+
+<Icon
+                    type="material-community"
+                    name="plus"
+                    color = 'black'
+                    size={30}
+                    onPress={() => { navigation.replace("GigScreen", { state: 0 }) }}
+                  
+                />
+
+
+                    </View>
+
                     <View style={styles.flatlist}>
                         <FlatList
                             keyExtractor={(item, index) => item.id}
@@ -124,69 +147,107 @@ return (
                     </View>
 
 
+                    <View >
+                        <TitleText style={styles.Text}>Please draft an for the client</TitleText>
+
+                    </View>
+
+
                     <View style={styles.buttonView}>
 
 
-                    <TouchableOpacity onPress={() => {  }}>
+                        <TouchableOpacity onPress={() => { navigation.replace("ConfirmScreen", { state: 0 }) }}>
 
-<Card style={styles.submitbutton}>
-
-
-    <TitleText style={styles.Text}>SUBMIT</TitleText>
+                            <Card style={styles.submitbutton}>
 
 
-</Card>
-
-</TouchableOpacity>
+                                <TitleText style={styles.Text}>SUBMIT</TitleText>
 
 
-                        
+                            </Card>
+
+                        </TouchableOpacity>
+
+
+
                     </View>
 
                     <View style={styles.buttonView2}>
-                    <TouchableOpacity onPress={() => { navigation.navigate("QuoteScreen", { state: 0 }) }}>
+                        <TouchableOpacity onPress={() => { navigation.replace("GigScreen", { state: 0 }) }}>
 
-<Card style={styles.backButton}>
-
-
-    <TitleText style={styles.Text}>GO BACK</TitleText>
+                            <Card style={styles.backButton}>
 
 
-</Card>
+                                <TitleText style={styles.Text}>GO BACK</TitleText>
 
-</TouchableOpacity>
-</View>
+
+                            </Card>
+
+                        </TouchableOpacity>
+                    </View>
 
                 </Card>
 
 
             </View>
-        
-
-    </View>
 
 
+        </View>
 
 
 
-)
+
+
+    )
 };
 
 
 const styles = StyleSheet.create({
 
-container: {
-    flex: 1,
+    container: {
+        flex: 1,
 
-    // alignItems: 'center',
-    justifyContent: 'space-around'
+        // alignItems: 'center',
+        justifyContent: 'space-around'
+    },
+
+QuoteInput: {
+flexDirection: 'row',
+justifyContent: 'space-around',
+width: '90%',
+paddingTop: 10
+
 },
 
-table: {
-  width: Dimensions.get('window').width * 0.8,
-  //  paddingLeft: '15%',
-    
-       // width: '80%',
+
+    input: {
+        width: '50%',
+        borderColor: '#8CC740',
+        //height: 48,
+      //  margin: 12,
+        borderWidth: 1,
+        padding: 5,
+        backgroundColor: 'white',
+       // borderRadius: 30
+    },
+
+    input1: {
+        width: '20%',
+        borderColor: '#8CC740',
+        //height: 48,
+      //  margin: 12,
+        borderWidth: 1,
+        padding: 5,
+        backgroundColor: 'white',
+       // borderRadius: 30
+    },
+
+
+    table: {
+        width: Dimensions.get('window').width * 0.8,
+        //  paddingLeft: '15%',
+
+        // width: '80%',
         borderRadius: 8,
         borderStyle: 'dashed',
         //height: '25%',
@@ -195,172 +256,168 @@ table: {
         padding: 10,
         borderColor: 'black'
 
-},
+    },
 
-imageBackground: {
-    flex: 1,
-    justifyContent: 'center',
-    width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height
-},
+    imageBackground: {
+        flex: 1,
+        justifyContent: 'center',
+        width: Dimensions.get('window').width,
+        height: Dimensions.get('window').height
+    },
 
-logo: {
-    padding: 10
-},
+    logo: {
+        padding: 10
+    },
 
-Text: {
-    fontFamily: 'Lexend-bold'
-},
+    Text: {
+        fontFamily: 'Lexend-bold'
+    },
 
-textView: {
-    paddingTop: 50
-},
+    textView: {
+        paddingTop: 50
+    },
 
-iconView: {
-    position: "absolute",
-    top: 50,
-    left: 12,
-    backgroundColor: '#8CC740',
-    height: 40,
-    width: 40,
-    borderRadius: 20,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 2,
-    zIndex: 8
-},
+    iconView: {
+        position: "absolute",
+        top: 50,
+        left: 12,
+        backgroundColor: '#8CC740',
+        height: 40,
+        width: 40,
+        borderRadius: 20,
+        justifyContent: "center",
+        alignItems: "center",
+        marginTop: 2,
+        zIndex: 8
+    },
 
-userIcon: {
-    position: "absolute",
-    top: 50,
-    right: 12,
-    backgroundColor: 'grey',
-    height: 40,
-    width: 40,
-    borderRadius: 20,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 2,
-    zIndex: 8
-},
+    userIcon: {
+        position: "absolute",
+        top: 50,
+        right: 12,
+        backgroundColor: 'grey',
+        height: 40,
+        width: 40,
+        borderRadius: 20,
+        justifyContent: "center",
+        alignItems: "center",
+        marginTop: 2,
+        zIndex: 8
+    },
 
-buttonView: {
-
-
-    zIndex: 30,
-    position: 'absolute',
-    bottom: 90,
-    width: Dimensions.get('window').width * 0.8,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 100,
-    height: 48,
-    //padding: 20
-
-},
-
-buttonView2: {
+    buttonView: {
 
 
-    zIndex: 30,
-    position: 'absolute',
-    bottom: 45,
-    width: Dimensions.get('window').width * 0.8,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 100,
-    height: 48,
-    paddingTop: 20
+        zIndex: 30,
+        position: 'absolute',
+        bottom: 90,
+        width: Dimensions.get('window').width * 0.8,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 100,
+        height: 48,
+        //padding: 20
 
-},
+    },
 
-Text: {
-    fontWeight: 'bold',
-
-},
+    buttonView2: {
 
 
-submitbutton: {
-    //  flex: 1,
+        zIndex: 30,
+        position: 'absolute',
+        bottom: 45,
+        width: Dimensions.get('window').width * 0.8,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 100,
+        height: 48,
+        paddingTop: 20
 
-    backgroundColor: '#8CC740',
-    width: Dimensions.get('window').width * 0.8,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 100,
-    height: 48,
-    shadowOpacity: 0.2,
-    
-},
+    },
 
-backButton: {
-    //  flex: 1,
+    Text: {
+        fontWeight: 'bold',
 
-    backgroundColor: '#ffff',
-    width: Dimensions.get('window').width * 0.8,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 100,
-    height: 48,
-    shadowOpacity: 0.2,
-    borderColor: '#8CC740',
-    borderWidth: 1,
-    
-},
+    },
 
 
-flatlist: {
-    paddingTop: 10,
-    backgroundColor: 'transparent',
-},
+    submitbutton: {
+        //  flex: 1,
 
-card: {
-    flex: 1,
-    backgroundColor: '#F5F2F0',
+        backgroundColor: '#8CC740',
+        width: Dimensions.get('window').width * 0.8,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 100,
+        height: 48,
+        shadowOpacity: 0.2,
 
-    width: Dimensions.get('window').width * 1,
-  //  justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 100,
-    height: Dimensions.get('window').height * 0.75,
-    shadowOpacity: 0.2,
-    borderBottomLeftRadius: 0,
-    borderBottomRightRadius: 0,
-    borderTopLeftRadius: 70,
-    borderTopRightRadius: 70
-},
+    },
 
+    backButton: {
+        //  flex: 1,
 
+        backgroundColor: '#ffff',
+        width: Dimensions.get('window').width * 0.8,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 100,
+        height: 48,
+        shadowOpacity: 0.2,
+        borderColor: '#8CC740',
+        borderWidth: 1,
 
-image: {
-    //height: Dimensions.get('window').width * 0.25,
-    //  width: Dimensions.get('window').width * 0.25,
-
-},
-
-
-gridView: {
+    },
 
 
-    zIndex: 30,
-    position: 'absolute',
-    bottom: 0,
-    width: Dimensions.get('window').width * 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 100,
-    height: Dimensions.get('window').height * 0.75,
+    flatlist: {
+        paddingTop: 10,
+        backgroundColor: 'transparent',
+    },
 
-},
+    card: {
+        flex: 1,
+        backgroundColor: '#F5F2F0',
 
-buttonText: {
-    fontWeight: 'bold',
+        width: Dimensions.get('window').width * 1,
+        //  justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 100,
+        height: Dimensions.get('window').height * 0.75,
+        shadowOpacity: 0.2,
+        borderBottomLeftRadius: 0,
+        borderBottomRightRadius: 0,
+        borderTopLeftRadius: 70,
+        borderTopRightRadius: 70
+    },
 
-},
-map: {
-    height: "100%",
-    width: "100%",
-  },
+
+
+    image: {
+        //height: Dimensions.get('window').width * 0.25,
+        //  width: Dimensions.get('window').width * 0.25,
+
+    },
+
+
+    gridView: {
+
+
+        zIndex: 30,
+        position: 'absolute',
+        bottom: 0,
+        width: Dimensions.get('window').width * 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 100,
+        height: Dimensions.get('window').height * 0.75,
+
+    },
+
+    buttonText: {
+        fontWeight: 'bold',
+
+    },
 
 
 

@@ -24,20 +24,22 @@ const GigScreen = ({ navigation }) => {
     const [category, setCategory] = useState(null);
     const [refreshing, setRefreshing] = useState(false);
 
-    //Import all the gigs from firebase
-    const getGigs =async () => {
-        setRefreshing(true);
-    
-        const allgigs = [];
-        const querySnapshot = await db.collection("Description").get();
-        querySnapshot.forEach((doc) => {
-            allgigs.push({ id: doc.id, ...doc.data() });
-            // doc.data() is never undefined for query doc snapshots
-            console.log(doc.id, " => ", doc.data());
-        });
-        setAllgigs([...allgigs]);
-        setRefreshing(false);
-        
+
+    const renderGridItem = itemData => {
+        return (
+            ////COMPONENT IMPORTED TO RENDER FLATLIST ITEMS//////
+            <Gigs
+                name={itemData.item.name}
+
+                image={itemData.item.image}
+                location={itemData.item.location}
+                service={itemData.item.service}
+                remarks={itemData.item.remarks}
+                onSelect={() => { navigation.replace("QuoteScreen", { state: 0 }) }}
+
+
+            />
+        )
     }
 
     //Get the location of the user

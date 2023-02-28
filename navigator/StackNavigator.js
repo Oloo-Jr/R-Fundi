@@ -8,6 +8,10 @@ import QuoteScreen from '../screen/QuoteScreen';
 import ConfirmScreen from '../screen/ConfirmScreen';
 import SignUpScreen from '../screen/SignUp';
 import GigScreen from '../screen/GigScreen';
+import ArrivedScreen from '../screen/ArrivedScreen';
+import ConfirmationScreen from '../screen/confirmationScreen';
+import ConfirmedScreen from '../screen/ConfirmedPage';
+import PaymentScreen from '../screen/PaymentPage';
 
 
 
@@ -41,11 +45,7 @@ export function HomeStack() {
                 options={{ headerShown: false }}
             />
 
-            <Home.Screen
-                name="DescriptionScreen"
-                component={DescriptionScreen}
-                options={{ headerShown: false }}
-            />
+         
 
 
 
@@ -59,6 +59,30 @@ export function HomeStack() {
 <Home.Screen
                 name="ConfirmScreen"
                 component={ConfirmScreen}
+                options={{ headerShown: false }}
+            />
+
+<Home.Screen
+                name="ArrivedScreen"
+                component={ArrivedScreen}
+                options={{ headerShown: false }}
+            />
+
+<Home.Screen
+                name="ConfirmationScreen"
+                component={ConfirmationScreen}
+                options={{ headerShown: false }}
+            />
+
+<Home.Screen
+                name="ConfirmedScreen"
+                component={ConfirmedScreen}
+                options={{ headerShown: false }}
+            />
+
+<Home.Screen
+                name="PaymentScreen"
+                component={PaymentScreen}
                 options={{ headerShown: false }}
             />
 
