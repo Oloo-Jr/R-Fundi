@@ -112,7 +112,7 @@ const GigScreen = ({ navigation }) => {
                                     size={20}
                                 
                                 />
-                    <SubText  style={styles.subTxt}>3.5, {item.imgUrl}</SubText>
+                    <SubText  style={styles.subTxt}>3.5,</SubText>
                     </View>
                     </View>
 
