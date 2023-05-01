@@ -2,17 +2,12 @@ import React, { useState, useRef, useEffect } from 'react';
 import { View, StyleSheet, Text, TouchableOpacity, FlatList, TextInput, ImageBackground,Image } from 'react-native';
 import Card from '../components/card';
 import { Dimensions } from 'react-native';
-import { SelectList } from 'react-native-dropdown-select-list'
 import TitleText from '../components/TitleText';
-import Gigs from '../components/Gigs';
-import { GIGS } from '../data/services';
-import MapView, { PROVIDER_GOOGLE, } from 'react-native-maps';
 import * as Location from 'expo-location';
-import { collection, getDocs } from "firebase/firestore";
-import { db } from '../Database/config';
-import * as location from "expo-location";
 import SubText from '../components/SubText';
 import { Icon } from 'react-native-elements';
+import { db } from '../Database/config';
+import { dbc } from '../Database/clientSide';
 
 
 const GigScreen = ({ navigation }) => {
@@ -24,8 +19,23 @@ const GigScreen = ({ navigation }) => {
     const [category, setCategory] = useState(null);
     const [refreshing, setRefreshing] = useState(false);
 
+        //Import all the gigs from firebase
+        const getGigs =async () => {
+            setRefreshing(true);
+        
+            const allgigs = [];
+            const querySnapshot = await dbc.collection("Description").get();
+            querySnapshot.forEach((doc) => {
+                allgigs.push({ id: doc.id, ...doc.data() });
+                // doc.data() is never undefined for query doc snapshots
+                console.log(doc.id, " => ", doc.data());
+            });
+            setAllgigs([...allgigs]);
+            setRefreshing(false);
+            
+        } 
 
-    const renderGridItem = itemData => {
+  /*  const renderGridItem = itemData => {
         return (
             ////COMPONENT IMPORTED TO RENDER FLATLIST ITEMS//////
             <Gigs
@@ -40,7 +50,7 @@ const GigScreen = ({ navigation }) => {
 
             />
         )
-    }
+    }*/
 
     //Get the location of the user
     useEffect(() => {
@@ -164,7 +174,7 @@ const GigScreen = ({ navigation }) => {
                             </Card>
                         </View>
 
-                        <TouchableOpacity   >
+                        <TouchableOpacity  onPress={() => { navigation.replace("QuoteScreen", { state: 0 }) }}  >
                         <Card style={styles.requestButton}>
 
 
@@ -217,7 +227,7 @@ const GigScreen = ({ navigation }) => {
 
             <View style={styles.gigs}>
                 <FlatList
-                    onRefresh={getGigs}
+                   onRefresh={getGigs}
                     data={allgigs}
                     refreshing={refreshing}
                     showsVerticalScrollIndicator={false}

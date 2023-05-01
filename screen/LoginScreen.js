@@ -1,14 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, Image, TouchableOpacity, ImageBackground, TextInput, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import Card from '../components/card';
 import { Dimensions } from 'react-native';
-import { SelectList } from 'react-native-dropdown-select-list'
 import TitleText from '../components/TitleText';
-import { Icon } from 'react-native-elements'
-import BodyText from '../components/BodyText';
+import SubText from '../components/SubText';
 import { auth } from '../Database/config';
-import SubText
- from '../components/SubText';
+
+
 const LoginScreen = ({ navigation }) => {
 
     const [email, setEmail] = useState("");
@@ -23,6 +21,16 @@ const LoginScreen = ({ navigation }) => {
            })
            .catch(error => alert(error.message))
     }
+
+    useEffect(() => {
+        const unsubscribe = auth.onAuthStateChanged(user => {
+            if (user) {
+                navigation.replace("HomeScreen")
+            }
+        })
+
+        return unsubscribe
+    }, [])
 
     return (
 

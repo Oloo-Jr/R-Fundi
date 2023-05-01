@@ -22,8 +22,8 @@ export const FUNDIS = [
 ];
 
 export const QUOTE = [
-    //new Quote ('q1','Purchase of new sink', '2000'),
-   // new Quote ('q2','Labour', '600')
+    new Quote ('q1','Purchase of new sink', '2000'),
+    new Quote ('q2','Labour', '600')
 ];
 
 

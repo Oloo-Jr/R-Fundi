@@ -19,6 +19,7 @@ export default function DrawerNavigator(){
         auth
         .signOut()
         .then(() => {
+            navigation.navigate("LoginScreen", { state: 0 });
         })
         .catch(error => alert(error.message))
       }

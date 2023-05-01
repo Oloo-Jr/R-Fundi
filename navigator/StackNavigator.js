@@ -6,7 +6,6 @@ import DescriptionScreen from '../screen/DescriptionScreen';
 import LoginScreen from '../screen/LoginScreen';
 import QuoteScreen from '../screen/QuoteScreen';
 import ConfirmScreen from '../screen/ConfirmScreen';
-import SignUpScreen from '../screen/SignUp';
 import GigScreen from '../screen/GigScreen';
 import ArrivedScreen from '../screen/ArrivedScreen';
 import ConfirmationScreen from '../screen/confirmationScreen';
@@ -20,12 +19,6 @@ const Home = createNativeStackNavigator();
 export function HomeStack() {
     return (
         <Home.Navigator>
-
-<Home.Screen
-                name="SignUpScreen"
-                component={SignUpScreen}
-                options={{ headerShown: false }}
-            />
 
 <Home.Screen
                 name="LoginScreen"
